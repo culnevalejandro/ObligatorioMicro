@@ -1,94 +1,85 @@
-    .global main
-    .text
-    .ent main
-
-main:
-    # Configurar puertos F y G como salida
-    li      $t0, 0
-    la      $t1, TRISF
-    sw      $t0, 0($t1)
-    la      $t1, TRISG
-    sw      $t0, 0($t1)
-    # Configurar puertos D como salida
-    la      $t1, TRISD
-    sw      $t0, 0($t1)
-
-    # Inicialización de la pantalla OLED
-    jal     oled_init
-
-loop:
-    # Mostrar "Hello World"
-    jal     display_hello_world
-
-    # Ciclo infinito
-    j       loop
-
-.end main
-
 # Subrutina para inicializar la pantalla OLED
 oled_init:
     # Reset de la pantalla
     la      $t1, LATD
-    li      $t2, 0x01      # RD0 (RES) = 0
+    li      $t2, 0x0002  # RD1 (RES) = 0
     sw      $t2, 0($t1)
-    li      $t3, 10000     # Espera
+    li      $t3, 10000   # Espera
 wait_reset:
-    subi    $t3, $t3, 1
-    bnez    $t3, wait_reset
+    addi    $t3, $t3, -1   # Decrementar el contador de espera
+    bne     $t3, $zero, wait_reset # Saltar si $t3 no es cero
 
-    li      $t2, 0x00      # RD0 (RES) = 1
+    li      $t2, 0x0000  # RD1 (RES) = 1
     sw      $t2, 0($t1)
-    li      $t3, 10000     # Espera
+    li      $t3, 10000   # Espera
 wait_release:
-    subi    $t3, $t3, 1
-    bnez    $t3, wait_release
+    addi    $t3, $t3, -1   # Decrementar el contador de espera
+    bne     $t3, $zero, wait_release # Saltar si $t3 no es cero
 
     # Enviar comandos de inicialización al OLED
-    # (Esto depende del controlador de la pantalla, se deben enviar los comandos adecuados)
-    la      $t4, command_list
-    lw      $t5, 0($t4)
+    la      $t4, init_commands
 init_loop:
-    beqz    $t5, init_done
+    lw      $t5, 0($t4)
+    beq     $t5, $zero, init_done
     jal     send_command
     addi    $t4, $t4, 4
-    lw      $t5, 0($t4)
     j       init_loop
 
 init_done:
     jr      $ra
 
-# Lista de comandos de inicialización (ejemplo, debe ser ajustado según el controlador)
-.data
-command_list:
-    .word   0xAE    # Display OFF
-    .word   0xA8    # Set MUX Ratio
-    .word   0x3F    # Multiplex Ratio
-    .word   0xD3    # Display Offset
-    .word   0x00    # Offset value
-    .word   0x40    # Set Display Start Line
-    .word   0xA1    # Set Segment Re-map
-    .word   0xC8    # COM Output Scan Direction
-    .word   0xDA    # COM Pins Hardware Configuration
-    .word   0x12
-    .word   0x81    # Contrast Control
-    .word   0x7F
-    .word   0xA4    # Disable Entire Display On
-    .word   0xA6    # Set Normal/Inverse Display
-    .word   0xD5    # Set Display Clock Divide Ratio/Oscillator Frequency
-    .word   0x80
-    .word   0x8D    # Enable charge pump regulator
-    .word   0x14
-    .word   0xAF    # Display ON
-    .word   0x00    # End of commands (marker)
-
+# Subrutina para enviar un comando al OLED
 # Subrutina para enviar un comando al OLED
 send_command:
-    # Código para enviar un comando al OLED usando SPI
-    # Aquí debes escribir el código que manda un comando específico a la pantalla usando SPI
+    lw      $t6, 0($t5)           # Cargar el comando desde la dirección de memoria en $t5
+    li      $t7, 0x0008            # RD3 (CS) = 0
+    sw      $t7, 0($t1)           # Poner el pin CS en bajo
+    sw      $t6, spi_data          # Cargar el comando en el registro de datos SPI
+    li      $t8, 0x0001            # Configurar el bit de transferencia de comando en el registro de control SPI
+    sw      $t8, spi_control       # Escribir en el registro de control SPI para iniciar la transferencia
+wait_spi_transfer_command:
+    lw      $t9, spi_control      # Leer el registro de control SPI
+    and     $t10, $t9, 0x0001     # Verificar el bit de transferencia de comando
+    beqz    $t10, wait_spi_transfer_command  # Esperar hasta que la transmisión SPI se complete
+    li      $t7, 0x0000            # RD3 (CS) = 1
+    sw      $t7, 0($t1)           # Poner el pin CS en alto
+    jr      $ra
+
+
+
+# Subrutina para enviar datos al OLED
+send_data:
+    lw      $t6, 0($t5)           # Cargar el byte de datos desde la dirección de memoria en $t5
+    li      $t7, 0x0004            # RD2 (DC) = 1
+    sw      $t7, 0($t1)           # Poner el pin DC en alto
+    sw      $t6, spi_data          # Cargar el byte de datos en el registro de datos SPI
+    li      $t8, 0x0003            # Configurar el bit de transferencia de datos en el registro de control SPI
+    sw      $t8, spi_control       # Escribir en el registro de control SPI para iniciar la transferencia
+wait_spi_transfer_data:
+    lw      $t9, spi_control      # Leer el registro de control SPI
+    andi    $t10, $t9, 0x0001     # Verificar el bit de transferencia de datos
+    beqz    $t10, wait_spi_transfer_data  # Esperar hasta que la transmisión SPI se complete
     jr      $ra
 
 # Subrutina para mostrar "Hello World"
 display_hello_world:
-    # Código para enviar los datos que forman "Hello World" al OLED
-    # Aquí debes escribir el código que manda los datos para mostrar "Hello World" en la pantalla
+    # Aquí debes escribir el código para enviar los datos que forman "Hello World" al OLED
+    # Puedes usar la función send_data para enviar cada carácter a la pantalla
+    # Por ejemplo, para enviar la cadena "Hello World":
+    la      $t5, hello_world_str  # Dirección de memoria de la cadena "Hello World"
+    move    $t11, $zero           # Inicializar el índice del bucle
+loop_send_data:
+    lb      $t12, 0($t5)          # Cargar el siguiente carácter de la cadena
+    beqz    $t12, done_display    # Si el carácter es nulo, terminar el bucle
+    jal     send_data             # Enviar el carácter a la pantalla
+    addi    $t5, $t5, 1           # Avanzar al siguiente carácter de la cadena
+    addi    $t11, $t11, 1         # Incrementar el índice del bucle
+    j       loop_send_data
+done_display:
     jr      $ra
+
+
+
+# String "Hello World" en ASCII
+hello_world_str:
+    .asciiz "Hello World"
