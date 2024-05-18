@@ -1,0 +1,1 @@
+ $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -fno-common   -DXPRJ_Copy_of_default=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  D:\ORT\Sistemas digitales y microprocesadores\Obligatorio\prueba_puertos\prueba_puertos.X\config.c
