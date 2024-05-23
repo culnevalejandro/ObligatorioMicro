@@ -18,7 +18,9 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>config.c</itemPath>
-      <itemPath>puertos.s</itemPath>
+      <itemPath>init_components.s</itemPath>
+      <itemPath>main.s</itemPath>
+      <itemPath>comms.s</itemPath>
     </logicalFolder>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
@@ -1566,7 +1568,7 @@
         <property key="oscillator.rcfrequency" value="250"/>
         <property key="oscillator.rcfrequencyunit" value="Kilo"/>
         <property key="periphADC1.altscl" value="false"/>
-        <property key="periphADC1.minTacq" value=""/>
+        <property key="periphADC1.minTacq" value="132"/>
         <property key="periphADC1.tacqunits" value="microseconds"/>
         <property key="periphADC2.altscl" value="false"/>
         <property key="periphADC2.minTacq" value=""/>
