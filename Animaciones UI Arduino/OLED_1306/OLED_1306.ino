@@ -90,13 +90,10 @@ const byte PROGMEM frames2[][128] = {
 int frame = 0;
 
 
-// Posición actual del cuadrado (0: izquierda, 1: derecha)
 int squarePosition = 0;
-// Estado del botón
 int buttonState;
-// Estado anterior del botón
 int lastButtonState = HIGH;
-// Último momento en que se pulsó el botón
+//Debounce para boton
 unsigned long lastDebounceTime = 0;
 
 
@@ -111,14 +108,12 @@ void printCenteredText(String text) {
 
 
 void setup() {
-  // Inicializa la pantalla OLED
   if (!display.begin(SSD1306_SWITCHCAPVCC)) {
     Serial.println(F("SSD1306 allocation failed"));
-    for (;;); // Detener si falla la inicialización
+    for (;;);
   }
   display.clearDisplay();
 
-  // Configura el pin del botón como entrada
   pinMode(BUTTON_PIN, INPUT_PULLUP);
 }
 
@@ -126,7 +121,6 @@ void setup() {
 
 
 void loop() {
-  // Lee el estado del botón y realiza el debounce
   int reading = digitalRead(BUTTON_PIN);
   if (reading != lastButtonState) {
     lastDebounceTime = millis();
@@ -134,23 +128,20 @@ void loop() {
   if (millis() - lastDebounceTime > DEBOUNCE_DELAY) {
     if (reading != buttonState) {
       buttonState = reading;
-      // Si el estado del botón ha cambiado
+
       if (buttonState == LOW) {
-        // Se ha pulsado el botón, cambia la posición del cuadrado
-        squarePosition = 1 - squarePosition; // Cambia entre 0 y 1
+        squarePosition = 1 - squarePosition;
         frame = 0; // Reinicia el frame cuando cambia de posición
       }
     }
   }
   lastButtonState = reading;
 
-  // Borra la pantalla
+
   display.clearDisplay();
 
 
-  // Dibuja el frame de la primera animación en la posición izquierda
   if (squarePosition == 0) {
-    // Si el botón está presionado y el cuadrado está a la izquierda, muestra la primera animación
     display.drawBitmap(20, 8, frames[frame], FRAME_WIDTH, FRAME_HEIGHT, 1);
     display.drawBitmap(76, 8, frames2[0], FRAME_WIDTH, FRAME_HEIGHT, 1);
 
@@ -160,7 +151,6 @@ void loop() {
 
 
   } else {
-    // De lo contrario, muestra el primer frame de la primera animación (estática)
     display.drawBitmap(20, 8, frames[0], FRAME_WIDTH, FRAME_HEIGHT, 1);
     display.drawBitmap(76, 8, frames2[frame], FRAME_WIDTH, FRAME_HEIGHT, 1);
 
@@ -172,12 +162,10 @@ void loop() {
   }
 
 
-  // Actualiza la pantalla
   display.display();
 
   // Actualiza el frame de la animación
   frame = (frame + 1) % min(FRAME_COUNT, max(sizeof(frames), sizeof(frames2)) / sizeof(frames[0]));
 
-  // Retardo entre frames
   delay(FRAME_DELAY);
 }
