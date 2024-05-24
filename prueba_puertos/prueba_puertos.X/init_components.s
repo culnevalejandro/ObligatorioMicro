@@ -64,9 +64,7 @@ init_spi:
     lw	    $t0, (SPI1BUF)
     
     li	    $t0, 0x0
-    sw	    $t0, (SPI1BRG)				#	*preguntar Isma
-    
-    lw	    $t0, (SPI1STAT)
+    sw	    $t0, (SPI1BRG)	# *preguntar Isma
     
     li	    $t0, 0x8120
     sw	    $t0, (SPI1CON)
@@ -86,7 +84,6 @@ init_ssd1306:
     # Apagar pantalla
     li	    $a0, 0xAE
     jal	    send_command
-    nop
     
     # Configurar reloj de pantalla
     li	    $a0, CMD_SET_DISPLAY_CLOCK_DIV

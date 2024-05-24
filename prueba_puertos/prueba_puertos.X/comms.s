@@ -12,7 +12,7 @@ waitTxReady:
     # Leer el registro de estado SPI1STAT
     lb      $t1, SPI1STAT
     # Comprobar si el buffer de transmisión está vacío (SPITBE = 1)
-    andi    $t1, $t1, 0x800
+    andi    $t1, $t1, 0x0004
     bne	    $t1, $0, waitTxReady   # Si SPITBE es 0, esperar
     
 waitTxComplete:
