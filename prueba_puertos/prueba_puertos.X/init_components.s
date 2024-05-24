@@ -28,30 +28,28 @@
     
 init_pins:
     addi    $sp, $sp, -4
-    sw	    $ra, 0($sp)
+    sw	    $ra, ($sp)
     
-    li	    $t0, 0x4
-    sw	    $t0, TRISE
+    # pin 26 como salida y 28 como entrada (RE0-reset)
+    li	    $t0,0x4
+    sw	    $t0,TRISE
     
     # pin 38 como salida (SCK1-clock)
-    li	    $t0, 0
-    sw	    $t0, TRISF
+    li	    $t0,0
+    sw	    $t0,TRISF
     
     # pin 41 como salida (RB1 - data)
-    li	    $t0, 0
-    sw	    $t0, TRISB
+    li	    $t0,0
+    sw	    $t0,TRISB
     
     # pines 34 y 35 como salida (RD5,RD11 - DC,CS)
-    li	    $t0, 0
-    sw	    $t0, TRISD
-    
-    lw	    $ra, ($sp)
-    addi    $sp, $sp, 4
+    li	    $t0,0
+    sw	    $t0,TRISD
     
     jr	    $ra
     
     
-    
+
     
 init_spi:
     
@@ -65,13 +63,12 @@ init_spi:
     
     lw	    $t0, (SPI1BUF)
     
-    li	    $t0, 0x1
+    li	    $t0, 0x0
     sw	    $t0, (SPI1BRG)				#	*preguntar Isma
     
-    li	    $t0, 0x40
-    sw	    $t0, (SPI1STATCLR)				#	*preguntar Isma
+    lw	    $t0, (SPI1STAT)
     
-    li	    $t0, 0x08330
+    li	    $t0, 0x8120
     sw	    $t0, (SPI1CON)
     
     lw	    $ra, ($sp)
@@ -87,13 +84,14 @@ init_ssd1306:
     sw	    $ra, ($sp)
     
     # Apagar pantalla
-    li	    $t0, 0xAE
+    li	    $a0, 0xAE
     jal	    send_command
+    nop
     
     # Configurar reloj de pantalla
-    li	    $t0, CMD_SET_DISPLAY_CLOCK_DIV
+    li	    $a0, CMD_SET_DISPLAY_CLOCK_DIV
     jal	    send_command
-    li	    $t0, CMD_SET_DISPLAY_CLOCK_DIV_VALUE  # Valor de división de reloj
+    li	    $a0, CMD_SET_DISPLAY_CLOCK_DIV_VALUE  # Valor de división de reloj
     jal	    send_command
     
     # Habilitar bomba de carga
