@@ -30,6 +30,8 @@ init_pins:
     addi    $sp, $sp, -4
     sw	    $ra, ($sp)
     
+    jal	    delay
+    
     # pin 26 como salida y 28 como entrada (RE0-reset)
     li	    $t0,0x4
     sw	    $t0,TRISE
@@ -46,6 +48,9 @@ init_pins:
     li	    $t0,0
     sw	    $t0,TRISD
     
+    lw	    $ra, ($sp)
+    addi    $sp, $sp, 4
+    
     jr	    $ra
     
     
@@ -55,6 +60,8 @@ init_spi:
     
     addi    $sp, $sp, -4
     sw	    $ra, ($sp)
+    
+    jal	    delay
     
     li	    $t0, 0x03800000
     sw	    $t0, (IEC0CLR)	# deshabilitar interrupts	*preguntar Isma
@@ -66,8 +73,14 @@ init_spi:
     li	    $t0, 0x0
     sw	    $t0, (SPI1BRG)	# *preguntar Isma
     
+    li	    $t0, 0x0
+    sw	    $t0, SPI1STATCLR
+    
     li	    $t0, 0x8120
     sw	    $t0, (SPI1CON)
+    
+    li	    $t0, 0x0
+    sw	    $t0, SPI1STATCLR
     
     lw	    $ra, ($sp)
     addi    $sp, $sp, 4
@@ -81,6 +94,8 @@ init_ssd1306:
     addi    $sp, $sp, -4
     sw	    $ra, ($sp)
     
+    jal	    delay
+    
     # Apagar pantalla
     li	    $a0, 0xAE
     jal	    send_command
@@ -92,33 +107,33 @@ init_ssd1306:
     jal	    send_command
     
     # Habilitar bomba de carga
-    li	    $t0, CMD_CHARGE_PUMP
+    li	    $a0, CMD_CHARGE_PUMP
     jal	    send_command
-    li	    $t0, CMD_CHARGE_PUMP_VALUE  # Habilitar bomba de carga
+    li	    $a0, CMD_CHARGE_PUMP_VALUE  # Habilitar bomba de carga
     jal	    send_command
     
     # Configurar modo de memoria
-    li	    $t0, CMD_MEMORY_MODE
+    li	    $a0, CMD_MEMORY_MODE
     jal	    send_command
-    li	    $t0, 0x00  # Modo horizontal
+    li	    $a0, 0x00  # Modo horizontal
     jal	    send_command
     
     # Configurar escaneo de COM
-    li	    $t0, CMD_COM_SCAN_DEC
+    li	    $a0, CMD_COM_SCAN_DEC
     jal	    send_command
     
     # Configurar contraste
-    li	    $t0, CMD_SET_CONTRAST
+    li	    $a0, CMD_SET_CONTRAST
     jal	    send_command
-    li	    $t0, CMD_SET_CONTRAST_VALUE
+    li	    $a0, CMD_SET_CONTRAST_VALUE
     jal	    send_command
     
     # Activar toda la pantalla
-    li	    $t0, CMD_DISPLAY_ALL_ON_RESUME
+    li	    $a0, CMD_DISPLAY_ALL_ON_RESUME
     jal	    send_command
     
     # Encender pantalla
-    li	    $t0, CMD_DISPLAY_ON
+    li	    $a0, CMD_DISPLAY_ON
     jal	    send_command
     
     lw	    $ra, ($sp)
@@ -127,4 +142,23 @@ init_ssd1306:
     jr	    $ra
     
     
+    delay:
+    
+    addi    $sp, $sp, -4
+    sw	    $ra, ($sp)
+    
+    li	    $t0, 2000
+    
+    delay_loop:
+    
+    sub	    $t0, $t0, 1
+    bne	    $t0, $zero, delay_loop
+
+    li      $t0, 0x800
+    sw      $t0, PORTD
+    
+    lw	    $ra, ($sp)
+    addi    $sp, $sp, 4
+
+    jr      $ra
     
