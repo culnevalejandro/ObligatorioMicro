@@ -32,21 +32,14 @@ init_pins:
     
     jal	    delay
     
-    # pin 26 como salida y 28 como entrada (RE0-reset)
-    li	    $t0,0x4
+    # pin 26 como salida (RES, RE0), pin 27 (RE1 DC), pin 28 (RE2 CS)
+    li	    $t0,0
     sw	    $t0,TRISE
     
-    # pin 38 como salida (SCK1-clock)
+    # pin 1 como salida (MOSI), pin 38 como salida (SCK1)
     li	    $t0,0
     sw	    $t0,TRISF
     
-    # pin 41 como salida (RB1 - data)
-    li	    $t0,0
-    sw	    $t0,TRISB
-    
-    # pines 34 y 35 como salida (RD5,RD11 - DC,CS)
-    li	    $t0,0
-    sw	    $t0,TRISD
     
     lw	    $ra, ($sp)
     addi    $sp, $sp, 4
@@ -64,23 +57,27 @@ init_spi:
     jal	    delay
     
     li	    $t0, 0x03800000
-    sw	    $t0, (IEC0CLR)	# deshabilitar interrupts	*preguntar Isma
+    sw	    $t0, IEC0CLR	# deshabilitar interrupts	*preguntar Isma
     
-    sw	    $zero, (SPI1CON)	# reset SPI1			*preguntar Isma
+    sw	    $zero, SPI1CON	# reset SPI1			*preguntar Isma
     
-    lw	    $t0, (SPI1BUF)
+    lw	    $t0, SPI1BUF
     
-    li	    $t0, 0x0
-    sw	    $t0, (SPI1BRG)	# *preguntar Isma
-    
-    li	    $t0, 0x0
-    sw	    $t0, SPI1STATCLR
-    
-    li	    $t0, 0x8120
-    sw	    $t0, (SPI1CON)
+    li      $t0, 0x10000     # Máscara para limpiar el bit 16
+    sw      $t0, SPI1CONCLR
     
     li	    $t0, 0x0
-    sw	    $t0, SPI1STATCLR
+    sw	    $t0, SPI1BRG	# *preguntar Isma
+    
+    li      $t0, 0x40
+    sw      $t0, SPI1STATCLR
+    
+    li	    $t0, 0x120
+    sw	    $t0, SPI1CON
+    
+    li	    $t0, 0x8000
+    sw	    $t0, SPI1CONSET
+
     
     lw	    $ra, ($sp)
     addi    $sp, $sp, 4
