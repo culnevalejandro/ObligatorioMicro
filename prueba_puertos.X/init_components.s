@@ -2,20 +2,26 @@
 .globl init_spi
 .globl init_ssd1306
 .globl init_res
+.globl delay
     
 .data
     
     # Inicializacion OLED
     
-SSD1306_COMSCANDEC: .byte 0xC8
 SSD1306_SETCONTRAST: .byte 0x81
 SSD1306_DISPLAYALLON_RESUME: .byte 0xA4
-SSD1306_INVERTDISPLAY: .byte 0xA7 
+SSD1306_NORMALDISPLAY: .byte 0xA6 
 SSD1306_SETDISPLAYCLOCKDIV: .byte 0xD5 
 SSD1306_CHARGEPUMP: .byte 0x8D 
 SSD1306_MEMORYMODE: .byte 0x20 
 SSD1306_DISPLAYON: .byte 0xAF
 SSD1306_DISPLAYALLON: .byte 0xA5
+SSD1306_DISPLAYOFFSET: .byte 0xD3
+SSD1306_COLUMNADDRESS: .byte 0x21
+SSD1306_PAGEADDRESS: .byte 0x22
+
+
+
     
 .text
     
@@ -106,9 +112,7 @@ init_ssd1306:
     li	    $a0, 0xAE
     jal	    enviar
     
-    li $a1, 0x1
-    lb $a0,SSD1306_COMSCANDEC
-    jal enviar
+    
     
     li $a1, 0x1 
     lb $a0,SSD1306_SETCONTRAST
@@ -123,7 +127,7 @@ init_ssd1306:
     jal enviar
     
     li $a1, 0x1 
-    lb $a0,SSD1306_INVERTDISPLAY
+    lb $a0,SSD1306_NORMALDISPLAY
     jal enviar
     
     li $a1, 0x1 
@@ -144,17 +148,42 @@ init_ssd1306:
     li $a1, 0x1 
     jal enviar
     li $a1, 0x1 
-    li $a0,0x01
+    li $a0,0x00
     jal enviar
+    
+    
+    li $a1, 0x1 
+    lb $a0,SSD1306_COLUMNADDRESS
+    jal enviar
+    li $a1, 0x1 
+    li $a0, 0x0
+    jal enviar
+    li $a1, 0x1
+    li $a0, 0x7F
+    jal enviar
+    
+    li $a1, 0x1 
+    lb $a0,SSD1306_PAGEADDRESS
+    jal enviar
+    li $a1, 0x1 
+    li $a0, 0x0
+    jal enviar
+    li $a1, 0x1
+    li $a0, 0x7
+    jal enviar
+    
     
     li $a1, 0x1 
     lb $a0,SSD1306_DISPLAYON
     jal enviar
-    
+
     li $a1, 0x1 
     lb $a0, SSD1306_DISPLAYALLON
     jal enviar
     
+    jal delay
+    
+
     
     
     lw	    $ra, ($sp)
