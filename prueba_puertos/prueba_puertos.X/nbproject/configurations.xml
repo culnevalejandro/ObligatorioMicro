@@ -243,7 +243,6 @@
         <property key="event.recorder.debugger.behavior" value="Running"/>
         <property key="event.recorder.enabled" value="false"/>
         <property key="event.recorder.scvd.files" value=""/>
-        <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="lastid" value=""/>
         <property key="memories.aux" value="false"/>
@@ -277,7 +276,7 @@
         <property key="programoptions.testmodeentrymethod" value="VDDFirst"/>
         <property key="programoptions.usehighvoltageonmclr" value="false"/>
         <property key="programoptions.uselvpprogramming" value="false"/>
-        <property key="voltagevalue" value="3.25"/>
+        <property key="voltagevalue" value="3.375"/>
       </PICkit3PlatformTool>
       <Simulator>
         <property key="codecoverage.enabled" value="Disable"/>
@@ -926,7 +925,7 @@
         <property key="usartf1io.output" value="window"/>
         <property key="usartf1io.outputfile" value=""/>
         <property key="usartf1io.uartioenabled" value="false"/>
-        <property key="voltagevalue" value="3.25"/>
+        <property key="voltagevalue" value="3.375"/>
         <property key="warningmessagebreakoptions.W0001_CORE_BITREV_MODULO_EN"
                   value="report"/>
         <property key="warningmessagebreakoptions.W0002_CORE_SECURE_MEMORYACCESS"

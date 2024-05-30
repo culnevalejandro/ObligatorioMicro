@@ -27,7 +27,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 PROJECTNAME=prueba_puertos.X
 
 # Active Configuration
-DEFAULTCONF=Copy_of_default
+DEFAULTCONF=default
 CONF=${DEFAULTCONF}
 
 # All Configurations

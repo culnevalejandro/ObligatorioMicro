@@ -1,29 +1,23 @@
 .globl init_pins
 .globl init_spi
 .globl init_ssd1306
+.globl init_res
     
-# Comandos de inicialización de SSD1306
-.equ CMD_DISPLAY_OFF, 0xAE
-.equ CMD_SET_DISPLAY_CLOCK_DIV, 0xD5
-.equ CMD_SET_DISPLAY_CLOCK_DIV_VALUE, 0x80	# divide entre 1 la velocidad del clock
-# .equ CMD_SET_MULTIPLEX, 0xA8
-# .equ CMD_SET_DISPLAY_OFFSET, 0xD3
-# .equ CMD_SET_START_LINE, 0x40
-.equ CMD_CHARGE_PUMP, 0x8D
-.equ CMD_CHARGE_PUMP_VALUE, 0x14
-.equ CMD_MEMORY_MODE, 0x20
-# .equ CMD_SEG_REMAP, 0xA1
-.equ CMD_COM_SCAN_DEC, 0xC8
-# .equ CMD_SET_COM_PINS, 0xDA
-.equ CMD_SET_CONTRAST, 0x81
-.equ CMD_SET_CONTRAST_VALUE, 0xCF
-# .equ CMD_SET_PRECHARGE, 0xD9
-# .equ CMD_SET_VCOM_DETECT, 0xDB
-.equ CMD_DISPLAY_ALL_ON_RESUME, 0xA4
-# .equ CMD_NORMAL_DISPLAY, 0xA6
-.equ CMD_DISPLAY_ON, 0xAF
+.data
     
-# No se utiliza 0xA7 porque no necesitamos invertir la visualizacion del display
+    # Inicializacion OLED
+    
+SSD1306_COMSCANDEC: .byte 0xC8
+SSD1306_SETCONTRAST: .byte 0x81
+SSD1306_DISPLAYALLON_RESUME: .byte 0xA4
+SSD1306_INVERTDISPLAY: .byte 0xA7 
+SSD1306_SETDISPLAYCLOCKDIV: .byte 0xD5 
+SSD1306_CHARGEPUMP: .byte 0x8D 
+SSD1306_MEMORYMODE: .byte 0x20 
+SSD1306_DISPLAYON: .byte 0xAF
+SSD1306_DISPLAYALLON: .byte 0xA5
+    
+.text
     
     
 init_pins:
@@ -36,7 +30,7 @@ init_pins:
     li	    $t0,0
     sw	    $t0,TRISE
     
-    # pin 1 como salida (MOSI), pin 38 como salida (SCK1)
+    # pin 1 como salida (MOSI D1), pin 38 como salida (SCK1 D0)
     li	    $t0,0
     sw	    $t0,TRISF
     
@@ -86,6 +80,9 @@ init_spi:
     
     
     
+    
+    
+    
 # Rutina de inicialización de la OLED
 init_ssd1306:
     addi    $sp, $sp, -4
@@ -93,45 +90,57 @@ init_ssd1306:
     
     jal	    delay
     
+    li	    $t0, 0x0
+    sw	    $t0, PORTE
+    
+    jal	    delay	    # delay > 3 us
+    
+    li	    $t0, 0x1
+    sw	    $t0, PORTE
+    
+    jal	    delay
+    
+    
     # Apagar pantalla
     li	    $a0, 0xAE
     jal	    send_command
     
-    # Configurar reloj de pantalla
-    li	    $a0, CMD_SET_DISPLAY_CLOCK_DIV
-    jal	    send_command
-    li	    $a0, CMD_SET_DISPLAY_CLOCK_DIV_VALUE  # Valor de división de reloj
-    jal	    send_command
+    lb $a0,SSD1306_COMSCANDEC
+    jal send_command
     
-    # Habilitar bomba de carga
-    li	    $a0, CMD_CHARGE_PUMP
-    jal	    send_command
-    li	    $a0, CMD_CHARGE_PUMP_VALUE  # Habilitar bomba de carga
-    jal	    send_command
+    lb $a0,SSD1306_SETCONTRAST
+    jal send_command
+    li $a0,0x8F
+    jal send_command
     
-    # Configurar modo de memoria
-    li	    $a0, CMD_MEMORY_MODE
-    jal	    send_command
-    li	    $a0, 0x00  # Modo horizontal
-    jal	    send_command
+    lb $a0,SSD1306_DISPLAYALLON_RESUME
+    jal send_command
     
-    # Configurar escaneo de COM
-    li	    $a0, CMD_COM_SCAN_DEC
-    jal	    send_command
+    lb $a0,SSD1306_INVERTDISPLAY
+    jal send_command
     
-    # Configurar contraste
-    li	    $a0, CMD_SET_CONTRAST
-    jal	    send_command
-    li	    $a0, CMD_SET_CONTRAST_VALUE
-    jal	    send_command
+    lb $a0,SSD1306_SETDISPLAYCLOCKDIV
+    jal send_command
+    li $a0,0x80
+    jal send_command
     
-    # Activar toda la pantalla
-    li	    $a0, CMD_DISPLAY_ALL_ON_RESUME
-    jal	    send_command
+    lb $a0,SSD1306_CHARGEPUMP
+    jal send_command
+    li $a0,0x14
+    jal send_command
     
-    # Encender pantalla
-    li	    $a0, CMD_DISPLAY_ON
-    jal	    send_command
+    lb $a0,SSD1306_MEMORYMODE
+    jal send_command
+    li $a0,0x01
+    jal send_command
+    
+    lb $a0,SSD1306_DISPLAYON
+    jal send_command
+    
+    lb $a0, SSD1306_DISPLAYALLON
+    jal send_command
+    
+    
     
     lw	    $ra, ($sp)
     addi    $sp, $sp, 4
@@ -150,9 +159,6 @@ init_ssd1306:
     
     sub	    $t0, $t0, 1
     bne	    $t0, $zero, delay_loop
-
-    li      $t0, 0x800
-    sw      $t0, PORTD
     
     lw	    $ra, ($sp)
     addi    $sp, $sp, 4

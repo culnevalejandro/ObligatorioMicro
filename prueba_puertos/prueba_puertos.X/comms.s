@@ -1,9 +1,9 @@
 .globl send_command
 
 send_command:
-    # Inicializar PORTD
-    li      $t0, 0
-    sw      $t0, PORTD
+    # Inicializar DC, RES y CS (PORTE)
+    li      $t0, 0x6
+    sw      $t0, PORTECLR
     
     # Escribir comando en SPI1BUF
     sw      $a0, SPI1BUF
@@ -11,13 +11,11 @@ send_command:
 waitTxReady:
     # Leer el registro de estado SPI1STAT
     lw      $t1, SPI1STAT
-    # Comprobar si el buffer de transmisión está vacío (SPITBE = 1)
-    andi    $t1, $t1, 0x800
-    bne	    $t1, $0, waitTxReady   # Si SPITBE es 0, esperar
+    # Comprobar si el SPI esta realizando transacciones (SPITBUSY = 1)
+    andi    $t1, $t1, 0x800	    #me fijo en el bit 11 que me dice si esta ocupado o no el SPI
+    beq	    $t1, 1, waitTxReady   # Si SPITBUSY es 1, esperar
     
 waitTxComplete:
-    li	    $t0, 0x800
-    sw	    $t0, PORTD
     
     jr      $ra
     
