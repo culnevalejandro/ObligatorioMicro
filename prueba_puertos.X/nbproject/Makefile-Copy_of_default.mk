@@ -89,33 +89,33 @@ MP_LINKER_FILE_OPTION=
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: assemble
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
-${OBJECTDIR}/init_components.o: init_components.s  .generated_files/flags/Copy_of_default/ccd5c3f7b2228c13d46d4ccef39b349250454fa0 .generated_files/flags/Copy_of_default/da39a3ee5e6b4b0d3255bfef95601890afd80709
+${OBJECTDIR}/init_components.o: init_components.s  .generated_files/flags/Copy_of_default/4579f0b554b6dd30cb39af53e844e86d5a07945a .generated_files/flags/Copy_of_default/da39a3ee5e6b4b0d3255bfef95601890afd80709
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/init_components.o 
 	${MP_CC} $(MP_EXTRA_AS_PRE)  -D__DEBUG  -D__MPLAB_DEBUGGER_SIMULATOR=1 -c -mprocessor=$(MP_PROCESSOR_OPTION)  -o ${OBJECTDIR}/init_components.o init_components.s  -Wa,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_AS_POST),--defsym=__MPLAB_DEBUG=1,--defsym=__DEBUG=1,--defsym=__MPLAB_DEBUGGER_SIMULATOR=1,--gdwarf-2,-MD="${OBJECTDIR}/init_components.o.d" -mdfp="${DFP_DIR}"
 	
-${OBJECTDIR}/main.o: main.s  .generated_files/flags/Copy_of_default/4378eb371e388c65fedf910169f4a44841fc7a06 .generated_files/flags/Copy_of_default/da39a3ee5e6b4b0d3255bfef95601890afd80709
+${OBJECTDIR}/main.o: main.s  .generated_files/flags/Copy_of_default/bbae653cbf195c0cad96b609867141a65edee0b6 .generated_files/flags/Copy_of_default/da39a3ee5e6b4b0d3255bfef95601890afd80709
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/main.o 
 	${MP_CC} $(MP_EXTRA_AS_PRE)  -D__DEBUG  -D__MPLAB_DEBUGGER_SIMULATOR=1 -c -mprocessor=$(MP_PROCESSOR_OPTION)  -o ${OBJECTDIR}/main.o main.s  -Wa,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_AS_POST),--defsym=__MPLAB_DEBUG=1,--defsym=__DEBUG=1,--defsym=__MPLAB_DEBUGGER_SIMULATOR=1,--gdwarf-2,-MD="${OBJECTDIR}/main.o.d" -mdfp="${DFP_DIR}"
 	
-${OBJECTDIR}/comms.o: comms.s  .generated_files/flags/Copy_of_default/f1823b0dca330f396bc62eb90cc2d6c44e9ebb72 .generated_files/flags/Copy_of_default/da39a3ee5e6b4b0d3255bfef95601890afd80709
+${OBJECTDIR}/comms.o: comms.s  .generated_files/flags/Copy_of_default/bf4256596f3cb94c0bee6b8f92b565ff8cdea46e .generated_files/flags/Copy_of_default/da39a3ee5e6b4b0d3255bfef95601890afd80709
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/comms.o 
 	${MP_CC} $(MP_EXTRA_AS_PRE)  -D__DEBUG  -D__MPLAB_DEBUGGER_SIMULATOR=1 -c -mprocessor=$(MP_PROCESSOR_OPTION)  -o ${OBJECTDIR}/comms.o comms.s  -Wa,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_AS_POST),--defsym=__MPLAB_DEBUG=1,--defsym=__DEBUG=1,--defsym=__MPLAB_DEBUGGER_SIMULATOR=1,--gdwarf-2,-MD="${OBJECTDIR}/comms.o.d" -mdfp="${DFP_DIR}"
 	
 else
-${OBJECTDIR}/init_components.o: init_components.s  .generated_files/flags/Copy_of_default/47f1fadfb8164c6c9f517e9ce0296bc4285c81fd .generated_files/flags/Copy_of_default/da39a3ee5e6b4b0d3255bfef95601890afd80709
+${OBJECTDIR}/init_components.o: init_components.s  .generated_files/flags/Copy_of_default/e14a6a24a372c30da42ecd9e9c8e3f1be78b1ba1 .generated_files/flags/Copy_of_default/da39a3ee5e6b4b0d3255bfef95601890afd80709
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/init_components.o 
 	${MP_CC} $(MP_EXTRA_AS_PRE)  -c -mprocessor=$(MP_PROCESSOR_OPTION)  -o ${OBJECTDIR}/init_components.o init_components.s  -Wa,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_AS_POST),--gdwarf-2,-MD="${OBJECTDIR}/init_components.o.d" -mdfp="${DFP_DIR}"
 	
-${OBJECTDIR}/main.o: main.s  .generated_files/flags/Copy_of_default/5a633494062d3c6fb1e189ead55efb4f556ee51a .generated_files/flags/Copy_of_default/da39a3ee5e6b4b0d3255bfef95601890afd80709
+${OBJECTDIR}/main.o: main.s  .generated_files/flags/Copy_of_default/4b9e1cd98da05a2a8853e173fed8b236bd19f4a1 .generated_files/flags/Copy_of_default/da39a3ee5e6b4b0d3255bfef95601890afd80709
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/main.o 
 	${MP_CC} $(MP_EXTRA_AS_PRE)  -c -mprocessor=$(MP_PROCESSOR_OPTION)  -o ${OBJECTDIR}/main.o main.s  -Wa,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_AS_POST),--gdwarf-2,-MD="${OBJECTDIR}/main.o.d" -mdfp="${DFP_DIR}"
 	
-${OBJECTDIR}/comms.o: comms.s  .generated_files/flags/Copy_of_default/e321cc81da0680368798265aac76063e3bed596 .generated_files/flags/Copy_of_default/da39a3ee5e6b4b0d3255bfef95601890afd80709
+${OBJECTDIR}/comms.o: comms.s  .generated_files/flags/Copy_of_default/30c88513a7a888438f213c72baec1a7eb79fb3ee .generated_files/flags/Copy_of_default/da39a3ee5e6b4b0d3255bfef95601890afd80709
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/comms.o 
 	${MP_CC} $(MP_EXTRA_AS_PRE)  -c -mprocessor=$(MP_PROCESSOR_OPTION)  -o ${OBJECTDIR}/comms.o comms.s  -Wa,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_AS_POST),--gdwarf-2,-MD="${OBJECTDIR}/comms.o.d" -mdfp="${DFP_DIR}"
@@ -131,14 +131,14 @@ endif
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: compile
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
-${OBJECTDIR}/config.o: config.c  .generated_files/flags/Copy_of_default/94e9bca9113601396f653bdd6d9998f9b2f9e6c4 .generated_files/flags/Copy_of_default/da39a3ee5e6b4b0d3255bfef95601890afd80709
+${OBJECTDIR}/config.o: config.c  .generated_files/flags/Copy_of_default/e90adcd0592e6b84bbb6668c644efeca6577abfe .generated_files/flags/Copy_of_default/da39a3ee5e6b4b0d3255bfef95601890afd80709
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/config.o.d 
 	@${RM} ${OBJECTDIR}/config.o 
 	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1  -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -fno-common -MP -MMD -MF "${OBJECTDIR}/config.o.d" -o ${OBJECTDIR}/config.o config.c    -DXPRJ_Copy_of_default=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
 	
 else
-${OBJECTDIR}/config.o: config.c  .generated_files/flags/Copy_of_default/b8e74a336d04749ff04944716695626914a03fc7 .generated_files/flags/Copy_of_default/da39a3ee5e6b4b0d3255bfef95601890afd80709
+${OBJECTDIR}/config.o: config.c  .generated_files/flags/Copy_of_default/2d72b7696aee03448e020364d20460fe5c8f494e .generated_files/flags/Copy_of_default/da39a3ee5e6b4b0d3255bfef95601890afd80709
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/config.o.d 
 	@${RM} ${OBJECTDIR}/config.o 

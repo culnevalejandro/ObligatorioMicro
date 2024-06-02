@@ -57,17 +57,17 @@ init_spi:
     jal	    delay
     
     li	    $t0, 0x03800000
-    sw	    $t0, IEC0CLR	# deshabilitar interrupts	*preguntar Isma
+    sw	    $t0, IEC0CLR
     
-    sw	    $zero, SPI1CON	# reset SPI1			*preguntar Isma
+    sw	    $zero, SPI1CON
     
     lw	    $t0, SPI1BUF
     
-    li      $t0, 0x10000     # Máscara para limpiar el bit 16
+    li      $t0, 0x10000
     sw      $t0, SPI1CONCLR
     
     li	    $t0, 0x0
-    sw	    $t0, SPI1BRG	# *preguntar Isma
+    sw	    $t0, SPI1BRG
     
     li      $t0, 0x40
     sw      $t0, SPI1STATCLR
@@ -88,8 +88,6 @@ init_spi:
     
     
     
-    
-# Rutina de inicialización de la OLED
 init_ssd1306:
     addi    $sp, $sp, -4
     sw	    $ra, ($sp)
@@ -107,81 +105,84 @@ init_ssd1306:
     jal	    delay
     
     
-    # Apagar pantalla
-    li $a1, 0x1
+    li	    $a1, 0x1
     li	    $a0, 0xAE
     jal	    enviar
     
     
     
-    li $a1, 0x1 
-    lb $a0,SSD1306_SETCONTRAST
-    jal enviar
+    li	    $a1, 0x1 
+    lb	    $a0,SSD1306_SETCONTRAST
+    jal	    enviar
     
-    li $a1, 0x1
-    li $a0,0x8F
-    jal enviar
+    li	    $a1, 0x1
+    li	    $a0,0x8F
+    jal	    enviar
     
-    li $a1, 0x1  
-    lb $a0,SSD1306_DISPLAYALLON_RESUME
-    jal enviar
+    li	    $a1, 0x1  
+    lb	    $a0,SSD1306_DISPLAYALLON_RESUME
+    jal	    enviar
     
-    li $a1, 0x1 
-    lb $a0,SSD1306_NORMALDISPLAY
-    jal enviar
+    li	    $a1, 0x1 
+    lb	    $a0,SSD1306_NORMALDISPLAY
+    jal	    enviar
     
-    li $a1, 0x1 
-    lb $a0,SSD1306_SETDISPLAYCLOCKDIV
-    jal enviar
-    li $a1, 0x1 
-    li $a0,0x80
-    jal enviar
+    li	    $a1, 0x1 
+    lb	    $a0,SSD1306_SETDISPLAYCLOCKDIV
+    jal	    enviar
+    li	    $a1, 0x1 
+    li	    $a0,0x80
+    jal	    enviar
     
-    li $a1, 0x1 
-    lb $a0,SSD1306_CHARGEPUMP
-    jal enviar
-    li $a1, 0x1 
-    li $a0,0x14
-    jal enviar
+    li	    $a1, 0x1 
+    lb	    $a0,SSD1306_CHARGEPUMP
+    jal	    enviar
+    li	    $a1, 0x1 
+    li	    $a0,0x14
+    jal	    enviar
     
-    lb $a0,SSD1306_MEMORYMODE
-    li $a1, 0x1 
-    jal enviar
-    li $a1, 0x1 
-    li $a0,0x00
-    jal enviar
-    
-    
-    li $a1, 0x1 
-    lb $a0,SSD1306_COLUMNADDRESS
-    jal enviar
-    li $a1, 0x1 
-    li $a0, 0x0
-    jal enviar
-    li $a1, 0x1
-    li $a0, 0x7F
-    jal enviar
-    
-    li $a1, 0x1 
-    lb $a0,SSD1306_PAGEADDRESS
-    jal enviar
-    li $a1, 0x1 
-    li $a0, 0x0
-    jal enviar
-    li $a1, 0x1
-    li $a0, 0x7
-    jal enviar
+    lb	    $a0,SSD1306_MEMORYMODE
+    li	    $a1, 0x1 
+    jal	    enviar
+    li	    $a1, 0x1 
+    li	    $a0,0x00
+    jal	    enviar
     
     
-    li $a1, 0x1 
-    lb $a0,SSD1306_DISPLAYON
-    jal enviar
+    li	    $a1, 0x1 
+    lb	    $a0,SSD1306_COLUMNADDRESS
+    jal	    enviar
+    li	    $a1, 0x1 
+    li	    $a0, 0x0
+    jal	    enviar
+    li	    $a1, 0x1
+    li	    $a0, 0x7F
+    jal	    enviar
+    
+    li	    $a1, 0x1 
+    lb	    $a0,SSD1306_PAGEADDRESS
+    jal	    enviar
+    li	    $a1, 0x1 
+    li	    $a0, 0x0
+    jal	    enviar
+    li	    $a1, 0x1
+    li	    $a0, 0x7
+    jal	    enviar
+    
+    
+    li	    $a1, 0x1 
+    lb	    $a0,SSD1306_DISPLAYON
+    jal	    enviar
 
-    li $a1, 0x1 
-    lb $a0, SSD1306_DISPLAYALLON
-    jal enviar
+    li	    $a1, 0x1 
+    lb	    $a0, SSD1306_DISPLAYALLON
+    jal	    enviar
     
-    jal delay
+    li	    $a1, 0x1 
+    li	    $a0, 0xA4
+    jal	    enviar
+    
+    jal	    delay
     
 
     
