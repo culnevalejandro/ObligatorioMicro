@@ -6,11 +6,10 @@
     .text
 .ent main
 	
-	# prueba cambios desde branck nuevo
     
 main:
     
-    # jal	    init_pins
+    jal	    init_pins
     jal	    init_spi
     jal	    init_ssd1306
     
