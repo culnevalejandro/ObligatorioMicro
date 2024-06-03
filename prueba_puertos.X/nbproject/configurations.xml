@@ -21,6 +21,7 @@
       <itemPath>init_components.s</itemPath>
       <itemPath>main.s</itemPath>
       <itemPath>comms.s</itemPath>
+      <itemPath>vars.s</itemPath>
     </logicalFolder>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>

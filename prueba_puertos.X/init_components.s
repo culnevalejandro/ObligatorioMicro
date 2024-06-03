@@ -19,8 +19,8 @@ SSD1306_DISPLAYALLON: .byte 0xA5
 SSD1306_DISPLAYOFFSET: .byte 0xD3
 SSD1306_COLUMNADDRESS: .byte 0x21
 SSD1306_PAGEADDRESS: .byte 0x22
-
-
+	
+SSD1306_SEND_COMMAND: .byte 0x1
 
     
 .text
@@ -105,82 +105,82 @@ init_ssd1306:
     jal	    delay
     
     
-    li	    $a1, 0x1
+    li	    $a1, SSD1306_SEND_COMMAND
     li	    $a0, 0xAE
-    jal	    enviar
+    jal	    send
     
     
     
-    li	    $a1, 0x1 
-    lb	    $a0,SSD1306_SETCONTRAST
-    jal	    enviar
+    li	    $a1, SSD1306_SEND_COMMAND 
+    lb	    $a0, SSD1306_SETCONTRAST
+    jal	    send
     
-    li	    $a1, 0x1
-    li	    $a0,0x8F
-    jal	    enviar
+    li	    $a1, SSD1306_SEND_COMMAND
+    li	    $a0, 0x8F
+    jal	    send
     
-    li	    $a1, 0x1  
-    lb	    $a0,SSD1306_DISPLAYALLON_RESUME
-    jal	    enviar
+    li	    $a1, SSD1306_SEND_COMMAND  
+    lb	    $a0, SSD1306_DISPLAYALLON_RESUME
+    jal	    send
     
-    li	    $a1, 0x1 
-    lb	    $a0,SSD1306_NORMALDISPLAY
-    jal	    enviar
+    li	    $a1, SSD1306_SEND_COMMAND 
+    lb	    $a0, SSD1306_NORMALDISPLAY
+    jal	    send
     
-    li	    $a1, 0x1 
-    lb	    $a0,SSD1306_SETDISPLAYCLOCKDIV
-    jal	    enviar
-    li	    $a1, 0x1 
-    li	    $a0,0x80
-    jal	    enviar
+    li	    $a1, SSD1306_SEND_COMMAND 
+    lb	    $a0, SSD1306_SETDISPLAYCLOCKDIV
+    jal	    send
+    li	    $a1, SSD1306_SEND_COMMAND 
+    li	    $a0, 0x80
+    jal	    send
     
-    li	    $a1, 0x1 
-    lb	    $a0,SSD1306_CHARGEPUMP
-    jal	    enviar
-    li	    $a1, 0x1 
+    li	    $a1, SSD1306_SEND_COMMAND 
+    lb	    $a0, SSD1306_CHARGEPUMP
+    jal	    send
+    li	    $a1, SSD1306_SEND_COMMAND 
     li	    $a0,0x14
-    jal	    enviar
+    jal	    send
     
-    lb	    $a0,SSD1306_MEMORYMODE
-    li	    $a1, 0x1 
-    jal	    enviar
-    li	    $a1, 0x1 
-    li	    $a0,0x00
-    jal	    enviar
+    lb	    $a0, SSD1306_MEMORYMODE
+    li	    $a1, SSD1306_SEND_COMMAND 
+    jal	    send
+    li	    $a1, SSD1306_SEND_COMMAND 
+    li	    $a0, 0x00
+    jal	    send
     
     
-    li	    $a1, 0x1 
-    lb	    $a0,SSD1306_COLUMNADDRESS
-    jal	    enviar
-    li	    $a1, 0x1 
+    li	    $a1, SSD1306_SEND_COMMAND 
+    lb	    $a0, SSD1306_COLUMNADDRESS
+    jal	    send
+    li	    $a1, SSD1306_SEND_COMMAND 
     li	    $a0, 0x0
-    jal	    enviar
-    li	    $a1, 0x1
+    jal	    send
+    li	    $a1, SSD1306_SEND_COMMAND
     li	    $a0, 0x7F
-    jal	    enviar
+    jal	    send
     
-    li	    $a1, 0x1 
+    li	    $a1, SSD1306_SEND_COMMAND 
     lb	    $a0,SSD1306_PAGEADDRESS
-    jal	    enviar
-    li	    $a1, 0x1 
+    jal	    send
+    li	    $a1, SSD1306_SEND_COMMAND 
     li	    $a0, 0x0
-    jal	    enviar
-    li	    $a1, 0x1
+    jal	    send
+    li	    $a1, SSD1306_SEND_COMMAND
     li	    $a0, 0x7
-    jal	    enviar
+    jal	    send
     
     
-    li	    $a1, 0x1 
+    li	    $a1, SSD1306_SEND_COMMAND 
     lb	    $a0,SSD1306_DISPLAYON
-    jal	    enviar
+    jal	    send
 
-    li	    $a1, 0x1 
+    li	    $a1, SSD1306_SEND_COMMAND 
     lb	    $a0, SSD1306_DISPLAYALLON
-    jal	    enviar
+    jal	    send
     
-    li	    $a1, 0x1 
+    li	    $a1, SSD1306_SEND_COMMAND 
     li	    $a0, 0xA4
-    jal	    enviar
+    jal	    send
     
     jal	    delay
     

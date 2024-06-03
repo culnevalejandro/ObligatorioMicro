@@ -51,17 +51,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=config.c init_components.s main.s comms.s
+SOURCEFILES_QUOTED_IF_SPACED=config.c init_components.s main.s comms.s vars.s
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/config.o ${OBJECTDIR}/init_components.o ${OBJECTDIR}/main.o ${OBJECTDIR}/comms.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/config.o.d ${OBJECTDIR}/init_components.o.d ${OBJECTDIR}/main.o.d ${OBJECTDIR}/comms.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/config.o ${OBJECTDIR}/init_components.o ${OBJECTDIR}/main.o ${OBJECTDIR}/comms.o ${OBJECTDIR}/vars.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/config.o.d ${OBJECTDIR}/init_components.o.d ${OBJECTDIR}/main.o.d ${OBJECTDIR}/comms.o.d ${OBJECTDIR}/vars.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/config.o ${OBJECTDIR}/init_components.o ${OBJECTDIR}/main.o ${OBJECTDIR}/comms.o
+OBJECTFILES=${OBJECTDIR}/config.o ${OBJECTDIR}/init_components.o ${OBJECTDIR}/main.o ${OBJECTDIR}/comms.o ${OBJECTDIR}/vars.o
 
 # Source Files
-SOURCEFILES=config.c init_components.s main.s comms.s
+SOURCEFILES=config.c init_components.s main.s comms.s vars.s
 
 
 
@@ -104,6 +104,11 @@ ${OBJECTDIR}/comms.o: comms.s  .generated_files/flags/default/3264036c8229d9d892
 	@${RM} ${OBJECTDIR}/comms.o 
 	${MP_CC} $(MP_EXTRA_AS_PRE)  -D__DEBUG  -D__MPLAB_DEBUGGER_PK3=1 -c -mprocessor=$(MP_PROCESSOR_OPTION)  -o ${OBJECTDIR}/comms.o comms.s  -Wa,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_AS_POST),--defsym=__ICD2RAM=1,--defsym=__MPLAB_DEBUG=1,--defsym=__DEBUG=1,--defsym=__MPLAB_DEBUGGER_PK3=1,--gdwarf-2,-MD="${OBJECTDIR}/comms.o.d" -mdfp="${DFP_DIR}"
 	
+${OBJECTDIR}/vars.o: vars.s  .generated_files/flags/default/5d0ef7145765da699b3adf0b5e53909088f36dc2 .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/vars.o 
+	${MP_CC} $(MP_EXTRA_AS_PRE)  -D__DEBUG  -D__MPLAB_DEBUGGER_PK3=1 -c -mprocessor=$(MP_PROCESSOR_OPTION)  -o ${OBJECTDIR}/vars.o vars.s  -Wa,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_AS_POST),--defsym=__ICD2RAM=1,--defsym=__MPLAB_DEBUG=1,--defsym=__DEBUG=1,--defsym=__MPLAB_DEBUGGER_PK3=1,--gdwarf-2,-MD="${OBJECTDIR}/vars.o.d" -mdfp="${DFP_DIR}"
+	
 else
 ${OBJECTDIR}/init_components.o: init_components.s  .generated_files/flags/default/e14a6a24a372c30da42ecd9e9c8e3f1be78b1ba1 .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
 	@${MKDIR} "${OBJECTDIR}" 
@@ -119,6 +124,11 @@ ${OBJECTDIR}/comms.o: comms.s  .generated_files/flags/default/30c88513a7a888438f
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/comms.o 
 	${MP_CC} $(MP_EXTRA_AS_PRE)  -c -mprocessor=$(MP_PROCESSOR_OPTION)  -o ${OBJECTDIR}/comms.o comms.s  -Wa,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_AS_POST),--gdwarf-2,-MD="${OBJECTDIR}/comms.o.d" -mdfp="${DFP_DIR}"
+	
+${OBJECTDIR}/vars.o: vars.s  .generated_files/flags/default/97b1dc84ae87ffe819d5dd8a43c8ac8f57f5649f .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/vars.o 
+	${MP_CC} $(MP_EXTRA_AS_PRE)  -c -mprocessor=$(MP_PROCESSOR_OPTION)  -o ${OBJECTDIR}/vars.o vars.s  -Wa,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_AS_POST),--gdwarf-2,-MD="${OBJECTDIR}/vars.o.d" -mdfp="${DFP_DIR}"
 	
 endif
 
