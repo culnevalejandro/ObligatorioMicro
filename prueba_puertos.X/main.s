@@ -27,10 +27,10 @@ main:
     finLlenarArray:
     
      la	    $a2, icono
-     jal    mandar_bitmap
+     jal    send_bitmap
      
      la	    $a2, dibujo
-     jal    mandar_bitmap
+     jal    send_bitmap
     
     
     

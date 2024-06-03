@@ -1,17 +1,12 @@
 .text
 .globl send
-.globl mandar_bitmap
-
-	
-.data
-	
-SSD1306_SEND_DATA: .byte 0x3
+.globl send_bitmap
     
     
 # FUNCT send
 # PARAM
 # $a0 send through spi
-# $a1 data or comm
+# $a1 data (0x3); comm (0x1)
 send:
 
     # Inicializar DC, RES y CS (PORTE)
@@ -35,7 +30,7 @@ waitTxReady:
 # FUNCT send_bitmap
 # PARAM
 # Recibe en a2 puntero inicial del array, recorre mandando por word
-mandar_bitmap:
+send_bitmap:
     # lw $s1, $a2
     li	    $s0, 0 # contador de bytes que se mandaron
     addi    $sp, $sp, -4
@@ -43,11 +38,11 @@ mandar_bitmap:
  loop:
 
     lb	    $a0, ($a2)
-    li	    $a1, SSD1306_SEND_DATA
+    li	    $a1, 0x3
     jal	    send
     addi    $s0, $s0, 1 
     addi    $a2, $a2, 1 
-    bne	    $s0, 1024, loop
+    bne	    $s0,1024,loop
     
  fin:
     lw	    $ra, ($sp)
