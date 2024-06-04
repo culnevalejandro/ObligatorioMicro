@@ -96,23 +96,23 @@ draw_bitmap:
 
 	
 
-	li	    $a1, SSD1306_SEND_COMMAND 
+	lb	    $a1, SSD1306_SEND_COMMAND 
     lb	    $a0, SSD1306_COLUMNADDRESS
     jal	    enviar
-    li	    $a1, SSD1306_SEND_COMMAND 
+    lb	    $a1, SSD1306_SEND_COMMAND 
     addi    $a0, $s1, 0
     jal	    enviar
-    li	    $a1, SSD1306_SEND_COMMAND
+    lb	    $a1, SSD1306_SEND_COMMAND
     addi    $a0, $s3, 0
     jal	    enviar
     
-    li	    $a1, SSD1306_SEND_COMMAND 
+    lb	    $a1, SSD1306_SEND_COMMAND 
     lb	    $a0,SSD1306_PAGEADDRESS
     jal	    enviar
-    li	    $a1, SSD1306_SEND_COMMAND 
+    lb	    $a1, SSD1306_SEND_COMMAND 
     addi    $a0, $s0, 0
     jal	    enviar
-    li	    $a1, SSD1306_SEND_COMMAND
+    lb	    $a1, SSD1306_SEND_COMMAND
     addi    $a0, $s2, 0
     jal	    enviar
 	
