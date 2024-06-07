@@ -13,7 +13,7 @@ SSD1306_DISPLAYALLON_RESUME: .byte 0xA4
 SSD1306_NORMALDISPLAY: .byte 0xA6 
 SSD1306_SETDISPLAYCLOCKDIV: .byte 0xD5 
 SSD1306_CHARGEPUMP: .byte 0x8D 
-SSD1306_MEMORYMODE: .byte 0x20 
+SSD1306_MEMORYADDRESSINGMODE: .byte 0x20 
 SSD1306_DISPLAYON: .byte 0xAF
 SSD1306_DISPLAYALLON: .byte 0xA5
 SSD1306_DISPLAYOFFSET: .byte 0xD3
@@ -108,13 +108,11 @@ init_ssd1306:
     li	    $a1, 0x1
     li	    $a0, 0xAE
     jal	    enviar
-    
-    
+
     
     li	    $a1, 0x1 
     lb	    $a0,SSD1306_SETCONTRAST
     jal	    enviar
-    
     li	    $a1, 0x1
     li	    $a0,0x8F
     jal	    enviar
@@ -141,11 +139,11 @@ init_ssd1306:
     li	    $a0,0x14
     jal	    enviar
     
-    lb	    $a0,SSD1306_MEMORYMODE
+    lb	    $a0,SSD1306_MEMORYADDRESSINGMODE
     li	    $a1, 0x1 
     jal	    enviar
     li	    $a1, 0x1 
-    li	    $a0,0x00
+    li	    $a0,0x0
     jal	    enviar
     
     
