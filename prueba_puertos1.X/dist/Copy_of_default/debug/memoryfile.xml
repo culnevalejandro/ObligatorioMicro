@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<project>                                  
+  <executable name="dist/Copy_of_default/debug/prueba_puertos.X.debug.elf">                 
+    <memory name="program">                 
+      <units>bytes</units>                 
+      <length>531968</length>                 
+      <used>2180</used>                     
+      <free>529788</free>                     
+    </memory>                              
+    <memory name="data">              
+      <units>bytes</units>                 
+      <length>32768</length>                 
+      <used>521</used>                     
+      <free>32247</free>                     
+    </memory>                              
+  </executable>                            
+</project>                                 
