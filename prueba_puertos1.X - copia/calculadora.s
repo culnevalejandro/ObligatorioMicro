@@ -4,9 +4,7 @@ memoria_stack: .space 1024 # Espacio de memoria para el stack
 finalDeStack: .word 0 # Puntero al final del stack
 stack_pointer: .word 0 # puntero al tope del stack
 string_STACK: .asciiz "STACK: "
-string_invalida: .asciiz "ENTRADA INVALIDA"
 string_insuficientes: .asciiz "OPERANDOS INSUFICIENTES"
-string_potNegativa: .asciiz "POTENCIA NEGATIVA, INVALIDO"
 string_entrada: .asciiz "ENTRADA: "
 numeroDeElementos: .word 0 # Contador de elementos del stack
 espacio_entrada: .space 100 # Espacio para almacenar la entrada del usuario
@@ -20,8 +18,11 @@ ingreso_distinto_cero:.byte 0x0
 menu_calculadora:
 
 	
-addi $sp, $sp,-4
+addi $sp, $sp,-12
+	
 sw $ra, ($sp)
+sw $s1, 4($sp)
+sw $s2, 8($sp)
 	
 jal inicializarStack
 	
@@ -220,7 +221,7 @@ jal			imprimirStack
 
 hacer_suma: # Pide los ultimos 2 elementos del stack y los suma, luego los elimina y agrega el resultado al stack
 jal cantElementos
-# blt $v0, 2, operandosInsuficientes # Si cantElementos<2, los operandos son insuficientes
+blt $v0, 2, operandosInsuficientes # Si cantElementos<2, los operandos son insuficientes
 jal pop 
 move $s1, $v0 # Como el loop principal no es una función, no es necesario protejer los registros s1 y s2
 jal pop
@@ -231,7 +232,7 @@ j loopPrincipal
 
 hacer_resta: # Pide los ultimos 2 elementos del stack y los resta, luego los elimina y agrega el resultado al stack
 jal cantElementos
-# blt $v0, 2, operandosInsuficientes
+blt $v0, 2, operandosInsuficientes
 jal pop 
 move $s1, $v0
 jal pop
@@ -242,7 +243,7 @@ j loopPrincipal
 
 hacer_producto: # Pide los ultimos 2 elementos del stack y los multiplica, luego los elimina y agrega el resultado al stack
 jal cantElementos
-#blt $v0, 2, operandosInsuficientes
+blt $v0, 2, operandosInsuficientes
 jal pop 
 move $s1, $v0
 jal pop
@@ -257,27 +258,21 @@ jal cantElementos
 beqz $v0, loopPrincipal # Si la lista tiene cero elementos, ya esta limpia y sale del loop
 jal pop 
 j limpiarStack
-# 
-# salirPrograma:
-# li $v0, 10
-# syscall
-# 
-# operandosInsuficientes:
-# la $a0, string_insuficientes
-# li $v0, 4
-# syscall
-# j pedirEntrada
-# 
-# potenciaNegativa: # Vuelvo a agregar los elementos que elminé del stack y pido entrada nuevamente
-# move $a0, $s2 
-# jal push
-# move $a0, $s1
-# jal push
-# la $a0, string_potNegativa
-# li $v0, 4
-# syscall
-# j pedirEntrada
-# 
+
+operandosInsuficientes:
+jal			black_screen
+	
+li			$a0,0x0
+la			$a2, string_insuficientes
+jal			imprimirTexto
+
+	
+	# HACER FUNCION DELAY PERTINENTE XXX
+jal delay
+j loopPrincipal
+
+
+
 	
 # ----------------------------------------------------- 
 # FUNCIONES DEL STACK
@@ -369,8 +364,10 @@ inicializarStack:
 		jr			$ra
 		
 	finCalculadora:
+		lw			$s2, 8($sp)
+		lw			$s1, 4($sp)
 		lw			$ra, ($sp)
-		addi		$sp, $sp, 4
+		addi		$sp, $sp, 12
 	
 		jr			$ra
 

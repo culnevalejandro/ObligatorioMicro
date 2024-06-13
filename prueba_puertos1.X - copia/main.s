@@ -38,11 +38,13 @@ main:
 	loop2:
 		jal		keypad_read
 		beq		$v0,52,menu1
+		beq		$v0,68,rot13
 	
 		j		loop2
 	
-	
-
+	rot13:
+	jal		menu_rot13
+	j		menu2
 	
 
     j	    main_loop

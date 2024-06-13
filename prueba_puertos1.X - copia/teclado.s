@@ -9,6 +9,7 @@ keypad_read:
 	sw $ra,($sp)
 	
 	
+	
     li      $t0, 1          # fila = 1
     li      $t1, 0x10       # bitmask = 0x10
 
@@ -16,11 +17,10 @@ keypad_read:
     andi    $t3, $t3, 0x0F  # Verificar si alguna de las líneas bajas está alta
     beqz    $t3, exit       # Si no hay, salir y retornar 0
 	
+	
 scan_loop:
 
     sw      $t1, PORTD		# prendo fila ( arrancando de arriba )
-
-    jal     delay_ms        # Retardo de unos milisegundos
 
     lw      $t4, PORTD      # Cargar el valor de PORTD
     andi    $t4, $t4, 0x0F  # guardo solo la entrada al pic
@@ -66,76 +66,83 @@ finish:
 
 	cero:
 	li      $v0, 48
-	j return 
+	j wait_input_state_change
 	
 	uno:
 	li      $v0, 49
-	j return
+	j wait_input_state_change
 	
 	dos:
 	li      $v0, 50
-	j return
+	j wait_input_state_change
 	
 	tres:
 	li      $v0, 51
-	j return
+	j wait_input_state_change
 	
 	cuatro:
 	li      $v0, 52
-	j return
+	j wait_input_state_change
 	
 	cinco:
 	li      $v0, 53
-	j return
+	j wait_input_state_change
 	
 	seis:
 	li      $v0, 54
-	j return
+	j wait_input_state_change
 	
 	siete:
 	li      $v0, 55
-	j return
+	j wait_input_state_change
 	
 	ocho:
 	li      $v0, 56
-	j return
+	j wait_input_state_change
 	
 	nueve:
 	li      $v0, 57
-	j return
+	j wait_input_state_change
 	
 	letraA:
 	li      $v0, 65
-	j return
+	j wait_input_state_change
 	
 	letraB:
 	li      $v0, 66
-	j return
+	j wait_input_state_change
 	
 	letraC:
 	li      $v0, 67
-	j return
+	j wait_input_state_change
 	
 	letraD:
 	li      $v0, 68
-	j return
+	j wait_input_state_change
 	
 	asterisco:
 	li      $v0, 42
-	j return
+	j wait_input_state_change
 	
 	numeral:
 	li      $v0, 35
+	j wait_input_state_change
+	
+	
+	wait_input_state_change:
+	lb		$t7, PORTD
+	andi	$t7, $t7, 0xF
+	bnez	$t7, wait_input_state_change
 	j return
 
+	
 	exit:
     li      $v0, 0
 	
 	return:
     li      $t3, 0xF0       # PORTD = 0xF0 salidas PIC a 1
     sw      $t3, PORTD		# Guardar en PORTD
-	
-	jal		wait_input_state_change
+
 	
 	lw		$ra,($sp)
 	addi	$sp, $sp, 4
@@ -154,9 +161,9 @@ delay_loop:
 
 	
 		
-wait_input_state_change:
-	lb		$t0, PORTD
-	andi	$t0, $t0, 0xF
-	bnez	$t0, wait_input_state_change
-
-	jr		$ra
+# wait_input_state_change:
+# 	lb		$t0, PORTD
+# 	andi	$t0, $t0, 0xF
+# 	bnez	$t0, wait_input_state_change
+# 
+# 	jr		$ra
