@@ -333,6 +333,7 @@ inicializar_stack:
 		lw $v1, -4($t1)
 		jr $ra
 		
+		
 	limpiar_stack:
 		addi	$sp, $sp, -4
 		sw		$ra, ($sp)
@@ -344,7 +345,7 @@ inicializar_stack:
 		j limpiar_stack_loop
 
 	fin_limpiar_stack:
-		sw		$ra, ($sp)
+		lw		$ra, ($sp)
 		addi	$sp, $sp, 4
 		jr		$ra
 	

@@ -1,7 +1,7 @@
 .data
-SSD1306_COLUMNADDRESS: .byte 0x21
-SSD1306_PAGEADDRESS: .byte 0x22	
-SSD1306_SEND_COMMAND: .byte 0x1
+SSD1306_COLUMNADDRESS:	.byte 0x21
+SSD1306_PAGEADDRESS:	.byte 0x22	
+SSD1306_SEND_COMMAND:	.byte 0x1
 .text
 	
 	
@@ -17,20 +17,20 @@ SSD1306_SEND_COMMAND: .byte 0x1
 enviar:
 
     # Inicializar DC, RES y CS (PORTE)
-    sb	    $a1, PORTE
+	sb	    $a1, PORTE
     
     # Escribir comando en SPI1BUF
-    sb	    $a0, SPI1BUF
+	sb	    $a0, SPI1BUF
     
 wait_tx_ready:
     # Leer el registro de estado SPI1STAT
-    lw	    $t1, SPI1STAT
+	lw	    $t1, SPI1STAT
     # Comprobar si el SPI esta realizando transacciones (SPITBUSY = 1)
-    andi    $t1, $t1, 0x800	    # me fijo en el bit 11 que me dice si esta ocupado o no el SPI
-    beq	    $t1, 1, wait_tx_ready   # Si SPITBUSY es 1, esperar
+	andi    $t1, $t1, 0x800	    # me fijo en el bit 11 que me dice si esta ocupado o no el SPI
+	beq	    $t1, 1, wait_tx_ready   # Si SPITBUSY es 1, esperar
     
     
-    jr      $ra
+	jr      $ra
     
 	
 # FUNCT send_bitmap
@@ -39,22 +39,22 @@ wait_tx_ready:
 # Recibe en $a3 cantidad de bytes a imprimir
 enviar_bitmap:
     # lw $s1, $a2
-    li	    $s0, 0 # contador de bytes que se mandaron
-    addi    $sp, $sp, -4
-    sw	    $ra, ($sp)
- loop:
+	li	    $s0, 0 # contador de bytes que se mandaron
+	addi    $sp, $sp, -4
+	sw	    $ra, ($sp)
+loop:
 
-    lb	    $a0, ($a2)
-    li	    $a1, 0x3
-    jal	    enviar
-    addi    $s0, $s0, 1 
-    addi    $a2, $a2, 1		#arreglar
-    bne	    $s0,$a3,loop
+	lb	    $a0, ($a2)
+	li	    $a1, 0x3
+	jal	    enviar
+	addi    $s0, $s0, 1 
+	addi    $a2, $a2, 1		#arreglar
+	bne	    $s0,$a3,loop
     
- fin:
-    lw	    $ra, ($sp)
-    addi    $sp, $sp, 4
-    jr	    $ra
+fin:
+	lw	    $ra, ($sp)
+	addi    $sp, $sp, 4
+	jr	    $ra
 	
     
     
@@ -64,10 +64,10 @@ enviar_bitmap:
 	
 draw_bitmap:
 	addi    $sp, $sp, -28
-    sw	    $ra, ($sp)
-    sw	    $s0, 4($sp)
+	sw	    $ra, ($sp)
+	sw	    $s0, 4($sp)
 	sw	    $s1, 8($sp)
-    sw	    $s2, 12($sp)
+	sw	    $s2, 12($sp)
 	sw	    $s3, 16($sp)
 	sw	    $s4, 20($sp)
 	sw	    $s5, 24($sp)
@@ -99,24 +99,24 @@ draw_bitmap:
 	
 
 	lb	    $a1, SSD1306_SEND_COMMAND 
-    lb	    $a0, SSD1306_COLUMNADDRESS
-    jal	    enviar
-    lb	    $a1, SSD1306_SEND_COMMAND 
-    addi    $a0, $s1, 0
-    jal	    enviar
-    lb	    $a1, SSD1306_SEND_COMMAND
-    addi    $a0, $s3, 0
-    jal	    enviar
+	lb	    $a0, SSD1306_COLUMNADDRESS
+	jal	    enviar
+	lb	    $a1, SSD1306_SEND_COMMAND 
+	addi    $a0, $s1, 0
+	jal	    enviar
+	lb	    $a1, SSD1306_SEND_COMMAND
+	addi    $a0, $s3, 0
+	jal	    enviar
     
-    lb	    $a1, SSD1306_SEND_COMMAND 
-    lb	    $a0,SSD1306_PAGEADDRESS
-    jal	    enviar
-    lb	    $a1, SSD1306_SEND_COMMAND 
-    addi    $a0, $s0, 0
-    jal	    enviar
-    lb	    $a1, SSD1306_SEND_COMMAND
-    addi    $a0, $s2, 0
-    jal	    enviar
+	lb	    $a1, SSD1306_SEND_COMMAND 
+	lb	    $a0,SSD1306_PAGEADDRESS
+	jal	    enviar
+	lb	    $a1, SSD1306_SEND_COMMAND 
+	addi    $a0, $s0, 0
+	jal	    enviar
+	lb	    $a1, SSD1306_SEND_COMMAND
+	addi    $a0, $s2, 0
+	jal	    enviar
 	
 	
 	
@@ -126,9 +126,9 @@ draw_bitmap:
 	
 	
 	lw	    $ra, ($sp)
-    lw	    $s0, 4($sp)
+	lw	    $s0, 4($sp)
 	lw	    $s1, 8($sp)
-    lw	    $s2, 12($sp)
+	lw	    $s2, 12($sp)
 	lw	    $s3, 16($sp)
 	lw	    $s4, 20($sp)
 	lw	    $s5, 24($sp)
