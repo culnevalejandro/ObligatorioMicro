@@ -22,8 +22,6 @@ siete:		.byte  'P','Q','R','S','7'
 ocho:		.byte  'T','U','V','8'
 nueve:		.byte  'W','X','Y','Z','9'
 cero:		.byte  ' ','0'
-	
-temporizador_bajo: .word 0x0
 
 
 .text

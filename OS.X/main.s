@@ -81,17 +81,8 @@ loop4:
 	j		loop4
 	
 calculadora1:
-	jal		calculadora
+	jal		menu_calculadora
 	j		menu4
 
 
     
-    
-    
-	li	    $v0, 10
-	syscall
-    
-
-
-	
-	

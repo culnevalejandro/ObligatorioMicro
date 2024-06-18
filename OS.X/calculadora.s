@@ -8,7 +8,6 @@ string_insuficientes_calc: .asciiz "OPERANDOS       INSUFICIENTES"
 string_entrada_calc: .asciiz "ENTRADA: "
 numero_de_elementos_calc: .word 0 # Contador de elementos del stack
 espacio_entrada_calc: .space 100 # Espacio para almacenar la entrada del usuario
-operacion_actual_calc: .byte 0x0 # 0-suma, 1-resta, 2-producto
 buffer_entrada_calc: .word 0x0
 cifras_buffer_entrada_calc:.byte 0x0
 ingreso_distinto_cero_calc:.byte 0x0
@@ -263,7 +262,6 @@ la			$a2, string_insuficientes_calc
 jal			imprimir_texto
 
 	
-	# HACER FUNCION DELAY PERTINENTE XXX
 	li $t0, 0
 	loop_delay_calc:
 	
