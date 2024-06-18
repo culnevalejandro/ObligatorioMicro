@@ -12,7 +12,7 @@ str_refrescar:			.asciiz " REFRESCAR (D)"
 estado_actual:			.byte 0x0
 	
 
-uno:		.byte ',', '.', '!', '1'
+uno:		.byte  ',', '.', '!', '1'
 dos:		.byte  'A','B','C','2'
 tres:		.byte  'D','E','F','3'
 cuatro:		.byte  'G','H','I','4'

@@ -1,1 +1,2 @@
-Anotar los cambios realizados en README.md cuando no estemos trabajando los tres juntos
+Entrega Obligatorio 2024 Sistemas Digitales y Microprocesadores
+Mini Sistema Operativo
